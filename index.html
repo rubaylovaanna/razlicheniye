@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Игра: Звуки Ш и С</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Howler.js для кроссбраузерного звука -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+<body>
+
+    <h1>Распредели картинки по звукам</h1>
+
+    <!-- Информационный блок с Манулом -->
+    <div class="info-banner">
+        <div class="info-text">
+            <p>Манул обнаружил два загадочных сундука на чердаке! Но уронил их и картинки-сокровища перепутались... Помоги ему навести порядок!</p>
+        </div>
+        <div class="info-mascot">
+            <img src="images/manul.png" alt="Манул" class="mascot-image">
+        </div>
+    </div>
+
+    <p class="subtitle">Перетащи картинку в нужный сундук</p>
+
+    <div class="game-board">
+        <div class="drop-zone zone-sh" data-target="sh">
+            <img src="images/sunduk1.png" alt="Сундук Ш" class="chest-image">
+            <h2>Звук [Ш]</h2>
+            <div class="zone-counter" id="counter-sh">0/3</div>
+        </div>
+        <div class="drop-zone zone-s" data-target="s">
+            <img src="images/sunduk2.png" alt="Сундук С" class="chest-image">
+            <h2>Звук [С]</h2>
+            <div class="zone-counter" id="counter-s">0/3</div>
+        </div>
+    </div>
+
+    <div class="cards-container" id="cardsContainer">
+        <!-- Карточки будут сгенерированы JS -->
+    </div>
+
+    <div class="win-modal" id="winModal">
+        <h2>Молодец!</h2>
+        <p class="win-text">Ты отлично справился с заданием!</p>
+        <button class="restart-btn" id="restartBtn">Играть снова</button>
+    </div>
+
+    <script src="js/game.js"></script>
+</body>
+</html>
