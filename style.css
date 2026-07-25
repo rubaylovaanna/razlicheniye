@@ -1,0 +1,434 @@
+:root {
+    --text-color: #2d3436;
+    --card-bg: #ffffff;
+    --success: #1dd1a1;
+    --error: #ff6b6b;
+}
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 20px 0;
+    position: relative;
+}
+
+/* Затемнение фона для читаемости */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Поднимаем контент над затемнением */
+body > * {
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    margin: 10px 0 15px;
+    font-size: 2rem;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Информационный блок с Манулом */
+.info-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 95%;
+    max-width: 900px;
+    background: white;
+    border-radius: 20px;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    border: 3px solid #f0f0f0;
+}
+
+.info-text {
+    flex: 1;
+}
+
+.info-text p {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #2d3436;
+    font-weight: 500;
+}
+
+.info-mascot {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mascot-image {
+    width: 240px;
+    height: 240px;
+    object-fit: contain;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+    transition: transform 0.3s ease;
+}
+
+.mascot-image:hover {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+/* Игровое поле */
+.game-board {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 95%;
+    max-width: 900px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+/* Сундук - основа */
+.drop-zone {
+    flex: 1;
+    min-width: 280px;
+    min-height: 280px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Картинка сундука */
+.chest-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Надписи на сундуке с тёмно-коричневой подложкой */
+.drop-zone h2 {
+    margin: 0;
+    font-size: 2rem;
+    pointer-events: none;
+    letter-spacing: 2px;
+    color: #fff8dc;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    font-weight: 700;
+    z-index: 10;
+    position: relative;
+    background: rgba(62, 38, 18, 0.92);
+    padding: 10px 28px;
+    border-radius: 14px;
+    border: 2px solid rgba(139, 90, 43, 0.8);
+    box-shadow: 
+        0 4px 12px rgba(0,0,0,0.4),
+        inset 0 1px 2px rgba(255,255,255,0.1);
+    backdrop-filter: blur(2px);
+}
+
+.drop-zone.drag-over {
+    transform: scale(1.05);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.zone-sh.drag-over { 
+    filter: brightness(1.15);
+}
+
+.zone-s.drag-over { 
+    filter: brightness(1.15);
+}
+
+/* Счётчик с тёмно-коричневой подложкой */
+.zone-counter {
+    font-size: 1.1rem;
+    color: #fff8dc;
+    margin-top: 12px;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    background: rgba(62, 38, 18, 0.92);
+    padding: 8px 20px;
+    border-radius: 12px;
+    border: 2px solid rgba(139, 90, 43, 0.8);
+    box-shadow: 
+        0 4px 12px rgba(0,0,0,0.4),
+        inset 0 1px 2px rgba(255,255,255,0.1);
+    z-index: 10;
+    position: relative;
+    backdrop-filter: blur(2px);
+}
+
+/* Контейнер для карточек */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 95%;
+    max-width: 900px;
+    min-height: 150px;
+    padding: 25px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+/* Карточка */
+.card {
+    width: 120px;
+    height: 140px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    cursor: grab;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    z-index: 10;
+    touch-action: none;
+    border: 3px solid transparent;
+    padding: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+.card:active {
+    cursor: grabbing;
+    transform: scale(1.15) rotate(3deg);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    z-index: 100;
+    border-color: #ffd700;
+}
+
+.card .image {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 5px;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+    pointer-events: none;
+}
+
+/* Скрытый текст для accessibility */
+.card .word {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Анимации */
+@keyframes shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    20%, 60% { transform: translateX(-10px) rotate(-5deg); }
+    40%, 80% { transform: translateX(10px) rotate(5deg); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%) !important;
+    border-color: #c0392b !important;
+}
+
+@keyframes vanish {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3) rotate(15deg); opacity: 0.8; }
+    100% { transform: scale(0) rotate(30deg); opacity: 0; }
+}
+
+.vanish {
+    animation: vanish 0.5s forwards ease-in;
+    pointer-events: none;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+    60% { transform: scale(1.1) rotate(10deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.card.spawn {
+    animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Экран победы */
+.win-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    backdrop-filter: blur(5px);
+}
+
+.win-modal.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.win-modal h2 {
+    font-size: 3.5rem;
+    color: white;
+    margin-bottom: 20px;
+    animation: bounce 1s infinite;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+}
+
+.win-text {
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.restart-btn {
+    padding: 18px 50px;
+    font-size: 1.3rem;
+    background: linear-gradient(135deg, #1dd1a1 0%, #10ac84 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(29, 209, 161, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-weight: 700;
+}
+
+.restart-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(29, 209, 161, 0.7);
+}
+
+.restart-btn:active {
+    transform: translateY(-2px) scale(1);
+}
+
+/* Конфетти */
+.confetti {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    top: -12px;
+    z-index: 999;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to { 
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Адаптив */
+@media (max-width: 700px) {
+    h1 { font-size: 1.5rem; }
+    
+    .info-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px 20px;
+    }
+    
+    .info-text p {
+        font-size: 1rem;
+    }
+    
+    .mascot-image {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .game-board {
+        flex-direction: column;
+        align-items: center;
+    }
+    .drop-zone {
+        width: 100%;
+        min-height: 220px;
+    }
+    .drop-zone h2 {
+        font-size: 1.6rem;
+        padding: 8px 22px;
+    }
+    .zone-counter {
+        font-size: 1rem;
+        padding: 6px 16px;
+    }
+    .card {
+        width: 100px;
+        height: 120px;
+    }
+    .card .image {
+        width: 75px;
+        height: 75px;
+    }
+}
